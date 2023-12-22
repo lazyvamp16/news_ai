@@ -121,6 +121,29 @@ def deleteDatabase():
    mydb.close()
 
 
+def createNewsTable():
+
+   mydb = connect()
+   try:
+    create_stmt = (  
+    "CREATE TABLE ImageObjects.News ("
+    "id int NOT NULL PRIMARY KEY AUTO_INCREMENT, "
+    "time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, "
+    "entity varchar(45) DEFAULT NULL, "
+    "news varchar(45) DEFAULT NULL, "
+    "sentiment varchar(45) DEFAULT NULL, "
+    "numeric varchar DEFAULT NULL )")   
+    
+    mycursor = mydb.cursor()
+    mycursor.execute(create_stmt) 
+    print("Created Image Table")
+   except Exception as e:
+    print(e)
+    mydb.rollback()
+    
+   mydb.close()
+
+
 
 def createImageTable():
 
@@ -171,8 +194,8 @@ dropUser()
 deleteDatabase() 
 createDatabase()
 createUser()
-
-createImageTable()
-createObjectTable()
+createNewsTable()
+#createImageTable()
+#createObjectTable()
 
 

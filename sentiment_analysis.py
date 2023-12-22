@@ -27,7 +27,7 @@ def predict(data):
     sentiment_pipeline = pipeline(model="mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis", verbose=False)
     ans=(sentiment_pipeline(data))
     print(ans)
-    
+
 
 print ('\n','\n','\n','\n',"CHECKING FOR NUMERIC VALUES",'\n')
 numericCheck(data)
