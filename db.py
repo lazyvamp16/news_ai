@@ -7,9 +7,9 @@ def connect():
     try:
       mydb = mysql.connector.connect(
         host="localhost",
-        user="iouser",
-        password="io123456",
-        database="ImageObjects"
+        user="root",
+        password="mysqlroot",
+        database="NewsVectors"
       )
     except Exception as e:
         print("Problem in connecting to database",e)
@@ -34,6 +34,26 @@ def insertObject(imageId, obtype,location):
     print(e)
     mydb.rollback()
   mydb.close()
+
+def insertNews(imageId, obtype,location):
+  
+  mydb = connect()
+  insert_stmt_ob = (
+   "INSERT INTO news(IMAGEID, TYPE, CONFIDENCE)"
+   "VALUES (%s, %s, %s)"
+  )
+  rowOb = (imageId,obtype,location)
+
+  try:
+    mycursor = mydb.cursor()
+    mycursor.execute(insert_stmt_ob,rowOb)   
+    mydb.commit()
+    print(mycursor.lastrowid)  
+  except Exception as e:
+    print(e)
+    mydb.rollback()
+  mydb.close()
+
 
 
 def deleteAllData():
@@ -81,20 +101,19 @@ def insertImage(name,location):
   return insertedId;
 
 
-def showObjects(interval):
+def getNews(interval):
   mydb = connect()
   select_stmt = (
-   "SELECT I.name,O.type, O.confidence, I.time FROM IMAGE I, OBJECT O where "
-   "I.id = O.imageid and i.time >= NOW() - INTERVAL " + interval + 
-   " order by I.time desc"
+   "SELECT N.id, N.news, N.entity, N.time FROM NEWS N where "
+   " N.time >= NOW() - INTERVAL " + interval + 
+   " order by N.time desc"
   )
   
   try:
     mycursor = mydb.cursor()
     mycursor.execute(select_stmt)   
-    myresult = mycursor.fetchall()
-    
-    t = PrettyTable(['Name', 'Object', 'Confidence', 'Time'])   
+    myresult = mycursor.fetchall()    
+    t = PrettyTable(['Id', 'News', 'Entity', 'Time'])   
     for x in myresult:     
      t.add_row([x[0],x[1],x[2],x[3]])
     print(t) 
@@ -110,3 +129,4 @@ def showObjects(interval):
 #showObjects('2 DAY')
 #deleteAllData()
 #showObjects('10 DAY')
+getNews('10 DAY')
