@@ -2,6 +2,7 @@ import transformers
 transformers.logging.CRITICAL
 from transformers import pipeline
 
+#checking
 
 data = ["tata motors hits 52 week high", 
         "tata motors stocks rise  causing losses to short traders", 
