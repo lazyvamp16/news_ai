@@ -132,7 +132,7 @@ def createNewsTable():
     "id int NOT NULL PRIMARY KEY AUTO_INCREMENT, "
     "time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, "
     "entity varchar(45) DEFAULT NULL, "
-    "news varchar(45) DEFAULT NULL, "
+    "news varchar(255) DEFAULT NULL, "
     "sentiment varchar(45) DEFAULT NULL, "
     "numvalue varchar(45) DEFAULT NULL, "
     "currency varchar(45) DEFAULT NULL )" )
@@ -147,49 +147,9 @@ def createNewsTable():
 
 
 
-def createImageTable():
 
-   mydb = connect()
-   try:
-    create_stmt = (  
-    "CREATE TABLE NewsVectors.Image ("
-    "id int NOT NULL PRIMARY KEY AUTO_INCREMENT, "
-    "name varchar(45) DEFAULT NULL, "
-    "location varchar(45) DEFAULT NULL, "
-    "time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP)")   
-    
-    mycursor = mydb.cursor()
-    mycursor.execute(create_stmt) 
-    print("Created Image Table")
-   except Exception as e:
-    print(e)
-    mydb.rollback()
-    
-   mydb.close()
   
-def createObjectTable():
 
-   mydb = connect()
-   try:
-    create_stmt = (         
-    "CREATE TABLE NewsVectors.Object ("
-    "id int NOT NULL PRIMARY KEY AUTO_INCREMENT, "
-    "imageid int NOT NULL, "
-    "confidence varchar(45) DEFAULT NULL, "
-    "type varchar(45) DEFAULT NULL, "
-    "location varchar(45) DEFAULT NULL, "
-    "time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP) "
-    )
-
-    mycursor = mydb.cursor()
-    mycursor.execute(create_stmt) 
-    print("Created Object Table")
-    
-   except Exception as e:
-    print(e)
-    mydb.rollback()
-    
-   mydb.close()
  
 version()
 dropUser()
@@ -197,7 +157,6 @@ deleteDatabase()
 createDatabase()
 createUser()
 createNewsTable()
-#createImageTable()
-#createObjectTable()
+
 
 
