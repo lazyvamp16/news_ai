@@ -4,7 +4,8 @@ from prettytable import PrettyTable
 
 
 if (len(sys.argv) != 2):
-  print("Please pass the root password as line arugment")
+  print("Please pass the root password as line arugment!")
+  print("test checkin")
   exit(1)
 
 
@@ -33,10 +34,11 @@ def connect():
   mydb = mysql.connector.connect(
     host="localhost",
     user="root",   
-    password = sys.argv[1]    
+    password = sys.argv[1],
+    auth_plugin = 'caching_sha2_password'    
     #password="mysqlroot",
     #password="root",
-    #database="ImageObjects"
+    #database="NewsVectors"
   )
   return mydb;
 
@@ -46,7 +48,7 @@ def createDatabase():
    mydb = connect()
    try:
     create_stmt = (  
-    "CREATE DATABASE ImageObjects")   
+    "CREATE DATABASE NewsVectors")   
     
     mycursor = mydb.cursor()
     mycursor.execute(create_stmt) 
@@ -85,10 +87,10 @@ def createUser():
     
     
     grant_stmt_1 = (  
-    "GRANT ALL PRIVILEGES ON IMAGEOBJECTS.IMAGE TO iouser@localhost ")
+    "GRANT ALL PRIVILEGES ON NewsVectors.IMAGE TO iouser@localhost ")
     
     grant_stmt_2 = (  
-    "GRANT ALL PRIVILEGES ON IMAGEOBJECTS.OBJECT TO iouser@localhost ")
+    "GRANT ALL PRIVILEGES ON NewsVectors.OBJECT TO iouser@localhost ")
     
     flush_stmt_3 = (
     "FLUSH PRIVILEGES")
@@ -109,11 +111,11 @@ def deleteDatabase():
    mydb = connect()
    try:
     create_stmt = (  
-    "DROP DATABASE ImageObjects")   
+    "DROP DATABASE NewsVectors")   
     
     mycursor = mydb.cursor()
     mycursor.execute(create_stmt) 
-    print("Deleted Database ImageObjects")
+    print("Deleted Database NewsVectors")
    except Exception as e:
     print(e)
     mydb.rollback()
@@ -126,17 +128,17 @@ def createNewsTable():
    mydb = connect()
    try:
     create_stmt = (  
-    "CREATE TABLE ImageObjects.News ("
+    "CREATE TABLE NewsVectors.News ("
     "id int NOT NULL PRIMARY KEY AUTO_INCREMENT, "
     "time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, "
     "entity varchar(45) DEFAULT NULL, "
     "news varchar(45) DEFAULT NULL, "
     "sentiment varchar(45) DEFAULT NULL, "
-    "numeric varchar DEFAULT NULL )")   
-    
+    "numvalue varchar(45) DEFAULT NULL, "
+    "currency varchar(45) DEFAULT NULL )" )
     mycursor = mydb.cursor()
     mycursor.execute(create_stmt) 
-    print("Created Image Table")
+    print("Created news Table")
    except Exception as e:
     print(e)
     mydb.rollback()
@@ -150,7 +152,7 @@ def createImageTable():
    mydb = connect()
    try:
     create_stmt = (  
-    "CREATE TABLE ImageObjects.Image ("
+    "CREATE TABLE NewsVectors.Image ("
     "id int NOT NULL PRIMARY KEY AUTO_INCREMENT, "
     "name varchar(45) DEFAULT NULL, "
     "location varchar(45) DEFAULT NULL, "
@@ -170,7 +172,7 @@ def createObjectTable():
    mydb = connect()
    try:
     create_stmt = (         
-    "CREATE TABLE ImageObjects.Object ("
+    "CREATE TABLE NewsVectors.Object ("
     "id int NOT NULL PRIMARY KEY AUTO_INCREMENT, "
     "imageid int NOT NULL, "
     "confidence varchar(45) DEFAULT NULL, "
