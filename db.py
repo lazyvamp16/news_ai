@@ -16,14 +16,16 @@ def connect():
         exit(1)
     return mydb;
 
-def insertObject(imageId, obtype,location):
+
+
+def insertNews(entity, news):
   
   mydb = connect()
   insert_stmt_ob = (
-   "INSERT INTO object(IMAGEID, TYPE, CONFIDENCE)"
-   "VALUES (%s, %s, %s)"
+   "INSERT INTO news(Entity, NEWS)"
+   "VALUES (%s, %s)"
   )
-  rowOb = (imageId,obtype,location)
+  rowOb = (entity,news)
 
   try:
     mycursor = mydb.cursor()
@@ -35,40 +37,39 @@ def insertObject(imageId, obtype,location):
     mydb.rollback()
   mydb.close()
 
-def insertNews(imageId, obtype,location):
+
+def updateNews(id, sentiment):
   
   mydb = connect()
   insert_stmt_ob = (
-   "INSERT INTO news(IMAGEID, TYPE, CONFIDENCE)"
-   "VALUES (%s, %s, %s)"
+   "UPDATE NEWS set SENTIMENT = 'POSITIVE' where ID = " + str(id) 
   )
-  rowOb = (imageId,obtype,location)
+  rowOb = (sentiment)
 
   try:
     mycursor = mydb.cursor()
-    mycursor.execute(insert_stmt_ob,rowOb)   
+    mycursor.execute(insert_stmt_ob)   
     mydb.commit()
     print(mycursor.lastrowid)  
   except Exception as e:
     print(e)
     mydb.rollback()
   mydb.close()
+
+
+
 
 
 
 def deleteAllData():
   mydb = connect()
-  delete_stmt_image = (
-   "DELETE from IMAGE"   
+  delete_stmt_news = (
+   "DELETE from NEWS"   
   )
-  delete_stmt_object = (
-   "DELETE from OBJECT"   
-  )
-
+ 
   try:
     mycursor = mydb.cursor()
-    mycursor.execute(delete_stmt_image)   
-    mycursor.execute(delete_stmt_object)   
+    mycursor.execute(delete_stmt_news)   
     mydb.commit()
         
   except Exception as e:
@@ -78,33 +79,13 @@ def deleteAllData():
   mydb.close()
   
 
-def insertImage(name,location):
-  mydb = connect()
-  insert_stmt = (
-   "INSERT INTO IMAGE(NAME, LOCATION)"
-   "VALUES (%s, %s)"
-  )
 
-  row = (name,location)
-  id = -1
-  try:
-    mycursor = mydb.cursor()
-    mycursor.execute(insert_stmt,row)   
-    mydb.commit()
-    print(mycursor.lastrowid)
-    insertedId = mycursor.lastrowid
-  except Exception as e:
-    print(e)
-    mydb.rollback()
-
-  mydb.close()
-  return insertedId;
 
 
 def getNews(interval):
   mydb = connect()
   select_stmt = (
-   "SELECT N.id, N.news, N.entity, N.time FROM NEWS N where "
+   "SELECT N.id, N.news, N.entity, N.SENTIMENT, N.time FROM NEWS N where "
    " N.time >= NOW() - INTERVAL " + interval + 
    " order by N.time desc"
   )
@@ -113,9 +94,9 @@ def getNews(interval):
     mycursor = mydb.cursor()
     mycursor.execute(select_stmt)   
     myresult = mycursor.fetchall()    
-    t = PrettyTable(['Id', 'News', 'Entity', 'Time'])   
+    t = PrettyTable(['Id', 'News', 'Entity', 'Sentiment','Time'])   
     for x in myresult:     
-     t.add_row([x[0],x[1],x[2],x[3]])
+     t.add_row([x[0],x[1],x[2],x[3],x[4]])
     print(t) 
   except Exception as e:
     print(e)
@@ -124,9 +105,10 @@ def getNews(interval):
   mydb.close()
 
 
-#imageId = insertImage('key1.jpg','Bedroom')
-#id2 = insertObject(imageId,'key','70%')
-#showObjects('2 DAY')
-#deleteAllData()
-#showObjects('10 DAY')
+deleteAllData()
+insertNews("TataMotors", "Price increased 3 percent in last 30 days")
+insertNews("TataMotors", "Three Directors relocated from Chennai to Pune plants")
+insertNews("TataMotors", "5 lakh registrations for Tata Nexon in 2023")
+updateNews("1", "POSITIVE")
+updateNews("2", "NEGATIVE")
 getNews('10 DAY')
