@@ -5,7 +5,7 @@ from prettytable import PrettyTable
 
 if (len(sys.argv) != 2):
   print("Please pass the root password as line arugment!")
-  print("test checkin")
+ 
   exit(1)
 
 
