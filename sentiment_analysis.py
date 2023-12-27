@@ -5,12 +5,6 @@ from transformers import pipeline
 from db import getNews2
 from db import updateNews
 
-'''
-data = ["tata motors hits 52 week high", 
-       "tata motors stocks rise  causing losses to short traders", 
-       " i went to watch a movie after making a MILLION in the stock market"]
-'''
-
 
 Inputdata,data = getNews2()
 

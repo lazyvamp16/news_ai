@@ -32,7 +32,7 @@ def insertNews(entity, news):
     mycursor = mydb.cursor()
     mycursor.execute(insert_stmt_ob,rowOb)   
     mydb.commit()
-    print(mycursor.lastrowid)  
+    #print(mycursor.lastrowid)  
   except Exception as e:
     print(e)
     mydb.rollback()
@@ -132,11 +132,14 @@ def getNews(interval):
 
   mydb.close()
 
-#if __name__ == "__main__":
+
+'''
+if __name__ == "__main__":
     #deleteAllData()
-    #insertNews("TataMotors", "Price increased 3 percent in last 30 days")
-    #insertNews("TataMotors", "Three Directors relocated from Chennai to Pune plants")
-    #insertNews("TataMotors", "5 lakh registrations for Tata Nexon in 2023")
+    insertNews("TataMotors", "Price increased 3 percent in last 30 days")
+    insertNews("TataMotors", "TataMotor stock hits 52 week low")
+    insertNews("TataMotors", "5 lakh registrations for Tata Nexon in 2023")
     #updateNews("1", "POSITIVE")
     #updateNews("2", "NEGATIVE")
     #getNews('10 DAY')
+'''
