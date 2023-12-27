@@ -8,13 +8,14 @@ def connect():
       mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="mysqlroot",
+        #password="mysqlroot",
+        password="root",
         database="NewsVectors"
       )
     except Exception as e:
         print("Problem in connecting to database",e)
         exit(1)
-    return mydb;
+    return mydb
 
 
 
@@ -42,15 +43,15 @@ def updateNews(id, sentiment):
   
   mydb = connect()
   insert_stmt_ob = (
-   "UPDATE NEWS set SENTIMENT = 'POSITIVE' where ID = " + str(id) 
+   "UPDATE NEWS set SENTIMENT = '" + sentiment + "' where ID = " + str(id) 
   )
-  rowOb = (sentiment)
+  #rowOb = (sentiment)
 
   try:
     mycursor = mydb.cursor()
     mycursor.execute(insert_stmt_ob)   
     mydb.commit()
-    print(mycursor.lastrowid)  
+    #print(mycursor.lastrowid)  
   except Exception as e:
     print(e)
     mydb.rollback()
@@ -81,6 +82,32 @@ def deleteAllData():
 
 
 
+def getNews2():
+  Inputdata=[]
+  data=[]
+  mydb = connect()
+  #print("connected")
+  select_stmt = ("SELECT N.id, N.news FROM NEWS N ")
+  try:
+    mycursor = mydb.cursor()
+    mycursor.execute(select_stmt)   
+    myresult = mycursor.fetchall()    
+    for x in myresult:   
+       Inputdata.append((x[1]))
+       l=[]  
+       l.append(x[0])
+       l.append(x[1])
+       data.append(l)
+
+  except Exception as e:
+    mydb.rollback()
+  mydb.close()
+  #print(d)
+  return(Inputdata,data)
+
+
+
+
 
 def getNews(interval):
   mydb = connect()
@@ -89,6 +116,7 @@ def getNews(interval):
    " N.time >= NOW() - INTERVAL " + interval + 
    " order by N.time desc"
   )
+
   
   try:
     mycursor = mydb.cursor()
@@ -104,11 +132,11 @@ def getNews(interval):
 
   mydb.close()
 
-
-deleteAllData()
-insertNews("TataMotors", "Price increased 3 percent in last 30 days")
-insertNews("TataMotors", "Three Directors relocated from Chennai to Pune plants")
-insertNews("TataMotors", "5 lakh registrations for Tata Nexon in 2023")
-updateNews("1", "POSITIVE")
-updateNews("2", "NEGATIVE")
-getNews('10 DAY')
+#if __name__ == "__main__":
+    #deleteAllData()
+    #insertNews("TataMotors", "Price increased 3 percent in last 30 days")
+    #insertNews("TataMotors", "Three Directors relocated from Chennai to Pune plants")
+    #insertNews("TataMotors", "5 lakh registrations for Tata Nexon in 2023")
+    #updateNews("1", "POSITIVE")
+    #updateNews("2", "NEGATIVE")
+    #getNews('10 DAY')

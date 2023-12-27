@@ -3,10 +3,10 @@ import sys
 from prettytable import PrettyTable
 
 
-if (len(sys.argv) != 2):
-  print("Please pass the root password as line arugment!")
+# if (len(sys.argv) != 2):
+#   print("Please pass the root password as line arugment!")
  
-  exit(1)
+#   exit(1)
 
 
 
@@ -34,10 +34,11 @@ def connect():
   mydb = mysql.connector.connect(
     host="localhost",
     user="root",   
-    password = sys.argv[1],
+    #password = sys.argv[1],
+    password="root",
     auth_plugin = 'caching_sha2_password'    
     #password="mysqlroot",
-    #password="root",
+   
     #database="NewsVectors"
   )
   return mydb;
