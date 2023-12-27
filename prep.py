@@ -135,6 +135,7 @@ def createNewsTable():
     "entity varchar(45) DEFAULT NULL, "
     "news varchar(255) DEFAULT NULL, "
     "sentiment varchar(45) DEFAULT NULL, "
+    "probability varchar(45) DEFAULT NULL, "
     "numvalue varchar(45) DEFAULT NULL, "
     "currency varchar(45) DEFAULT NULL )" )
     mycursor = mydb.cursor()
