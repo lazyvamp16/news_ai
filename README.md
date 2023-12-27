@@ -1,12 +1,13 @@
-GOAL: Predicting the movement of market 
+GOAL: Predicting the movement of markets 
 
 CURRENTLY contains:
--sentiment analysis of news using roberta ai model
--checking of numeric values in news
+- sentiment analysis of news using roberta AI model
+- checking of numeric values in news
 
-CURRENT goals:
--implementing web scraper
--inserting news into sql database
--returning output to sql database
+Phase1:
+- Implementing web scraper to get news in DB
+- Updating news with sentiments based on the AI model output
 
+Phase2:
+- Deciding weights for news based on time and data in the news
 
