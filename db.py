@@ -87,16 +87,18 @@ def getNews2():
   data=[]
   mydb = connect()
   #print("connected")
-  select_stmt = ("SELECT N.id, N.news FROM NEWS N ")
+  select_stmt = ("SELECT N.id, N.time, N.entity, N.news FROM NEWS N ")
   try:
     mycursor = mydb.cursor()
     mycursor.execute(select_stmt)   
     myresult = mycursor.fetchall()    
     for x in myresult:   
-       Inputdata.append((x[1]))
+       Inputdata.append((x[3]))
        l=[]  
        l.append(x[0])
        l.append(x[1])
+       l.append(x[2])
+       l.append(x[3])
        data.append(l)
 
   except Exception as e:
@@ -109,7 +111,7 @@ def getNews2():
 
 
 
-def getNews(interval):
+def showNews(interval):
   mydb = connect()
   select_stmt = (
    "SELECT N.id, N.news, N.entity, N.SENTIMENT, N.time FROM NEWS N where "
@@ -133,7 +135,7 @@ def getNews(interval):
   mydb.close()
 
 
-'''
+
 if __name__ == "__main__":
     #deleteAllData()
     insertNews("TataMotors", "Price increased 3 percent in last 30 days")
@@ -141,5 +143,4 @@ if __name__ == "__main__":
     insertNews("TataMotors", "5 lakh registrations for Tata Nexon in 2023")
     #updateNews("1", "POSITIVE")
     #updateNews("2", "NEGATIVE")
-    #getNews('10 DAY')
-'''
+    #showNews('10 DAY')
